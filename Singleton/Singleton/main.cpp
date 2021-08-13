@@ -39,7 +39,7 @@ public:
 		if (instance == nullptr) instance = new Singleton;    // Lazy initialisation- объект НЕ создается до тех пор пока он не понадобится
 		return instance;
 	}
-	void pritn()const
+	void pritn()const 
 	{
 		time_t timer;
 		time(&timer);
@@ -78,7 +78,15 @@ void main()
 	director->set_first_name("Vasiliy");
 	director->set_birth_date(1991,5,15);
 	director->pritn();
+	cout << endl;
 
+	Singleton* director1 = Singleton::getInstance();
+	director1->set_last_name("Tupeko");
+	director1->set_first_name("Vailiy");
+	director1->set_birth_date(1999, 5, 3);
+	director1->pritn();
+	cout << endl;
+	director->pritn();
 #endif // SINGLETON_2
 
 }
