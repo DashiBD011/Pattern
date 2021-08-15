@@ -107,8 +107,102 @@ std::map<size_t, std::string> HumanFactory::weapons =
 	std::pair<size_t, std::string>(5, "M4A1")
 };
 
+enum TypeOfTransoprt
+{
+	Land,
+	Water,
+	Air
+};
+
+class Transport
+{
+	unsigned int speed;
+	unsigned int hp;
+	TypeOfTransoprt type;
+public:
+	Transport(unsigned int speed, unsigned int hp, TypeOfTransoprt type)
+	{
+		this->speed = speed;
+		this->hp = hp;
+		this->type = type;
+	}
+	virtual ~Transport() {}
+	virtual void info()const
+	{
+		cout << "\n-----------------------------------\n";
+		cout << typeid(*this).name() << endl;
+		cout << "Speed:\t" << speed << endl;
+		cout << "HP:\t" << hp << endl;
+		cout << "Type:\t" << type << endl;
+	}
+};
+
+enum CarName
+{
+	Patriot,
+	Infernus,
+	Stretch,
+	Buffalo,
+	Sentiniel,
+	Bobcat,
+	Banshee,
+	PoliceCar
+};
+
+class Car :public Transport
+{
+	CarName name;
+public:
+	Car(unsigned int speed, unsigned int hp, TypeOfTransoprt type, CarName name)
+		:Transport(speed, hp, type)
+	{
+		this->name = name;
+	}
+	~Car() {}
+	void info()const
+	{
+		Transport::info();
+		cout << "Name:\t" << name << endl;
+	}
+};
+
+class BMX :public Transport
+{
+public:
+	BMX(unsigned int speed, unsigned int hp, TypeOfTransoprt type)
+		:Transport(speed, hp, type) {}
+	~BMX() {}
+};
+
+class Helicopter :public Transport
+{
+public:
+	Helicopter(unsigned int speed, unsigned int hp, TypeOfTransoprt type)
+		:Transport(speed, hp, type) {}
+	~Helicopter() {}
+};
+
+enum TransportType
+{
+	Car,
+	BMX,
+	Helicopter
+};
+
+Transport* transportFactory(TransportType type)
+{
+	switch (type)
+	{
+	case Car:return new class Car(0, 200, Land, CarName(rand() % 7));
+	case BMX:return new class BMX(0, 100000, Land);
+	case Helicopter:return new class Helicopter(0, 100, Air);
+
+	}
+}
+
+
 //#define FACTORY_CHECK_1
-#define FACTORY_CHECK_2
+//#define FACTORY_CHECK_2
 
 void main()
 {
@@ -152,6 +246,13 @@ void main()
 	}
 #endif // FACTORY_CHECK_2
 
+	Transport* c = transportFactory(Car);
+	c->info();
 
+	Transport* bmx = transportFactory(BMX);
+	bmx->info();
+
+	Transport* h = transportFactory(Helicopter);
+	h->info();
 
 }
