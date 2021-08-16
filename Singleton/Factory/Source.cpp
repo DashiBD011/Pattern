@@ -4,6 +4,7 @@
 #include<map>
 using namespace std;
 
+
 class Human
 {
 	unsigned int hp;
@@ -113,6 +114,7 @@ enum TypeOfTransoprt
 	Water,
 	Air
 };
+string printEnum(TypeOfTransoprt type);
 
 class Transport
 {
@@ -133,27 +135,15 @@ public:
 		cout << typeid(*this).name() << endl;
 		cout << "Speed:\t" << speed << endl;
 		cout << "HP:\t" << hp << endl;
-		cout << "Type:\t" << type << endl;
+		cout << "Type:\t" << printEnum(type) << endl;
 	}
-};
-
-enum CarName
-{
-	Patriot,
-	Infernus,
-	Stretch,
-	Buffalo,
-	Sentiniel,
-	Bobcat,
-	Banshee,
-	PoliceCar
 };
 
 class Car :public Transport
 {
-	CarName name;
+	string name;
 public:
-	Car(unsigned int speed, unsigned int hp, TypeOfTransoprt type, CarName name)
+	Car(unsigned int speed, unsigned int hp, TypeOfTransoprt type, string name)
 		:Transport(speed, hp, type)
 	{
 		this->name = name;
@@ -189,17 +179,39 @@ enum TransportType
 	Helicopter
 };
 
+std::map<size_t, std::string> CarName =
+{
+	std::pair<size_t,std::string>(0,"Patriot"),
+	std::pair<size_t,std::string>(1,"Infernus"),
+	std::pair<size_t,std::string>(2,"Stretch"),
+	std::pair<size_t,std::string>(3,"Buffalo"),
+	std::pair<size_t,std::string>(4,"Sentiniel"),
+	std::pair<size_t,std::string>(5,"Bobcat"),
+	std::pair<size_t,std::string>(6,"Banshee"),
+	std::pair<size_t,std::string>(7,"PoliceCar")
+};
+
 Transport* transportFactory(TransportType type)
 {
 	switch (type)
 	{
-	case Car:return new class Car(0, 200, Land, CarName(rand() % 7));
+
+	case Car:return new class Car(0, 200, Land, CarName[(rand() % CarName.size())]);
 	case BMX:return new class BMX(0, 100000, Land);
 	case Helicopter:return new class Helicopter(0, 100, Air);
 
 	}
 }
 
+string printEnum(TypeOfTransoprt type)
+{
+	switch (type)
+	{
+	case Land:return "Land";
+	case Water:return "Water";
+	case Air:return "Air";
+	}
+}
 
 //#define FACTORY_CHECK_1
 //#define FACTORY_CHECK_2
@@ -246,13 +258,25 @@ void main()
 	}
 #endif // FACTORY_CHECK_2
 
-	Transport* c = transportFactory(Car);
+	/*Transport* c = transportFactory(Car);
 	c->info();
 
 	Transport* bmx = transportFactory(BMX);
 	bmx->info();
 
 	Transport* h = transportFactory(Helicopter);
-	h->info();
+	h->info();*/
+
+	const int m = 10;
+	Transport* transport[m];
+	for (int i = 0; i < m; i++)
+	{
+		transport[i] = transportFactory(TransportType(rand() % 3));
+		transport[i]->info();
+	}
+	for (int i = 0; i < m; i++)
+	{
+		delete transport[i];
+	}
 
 }
