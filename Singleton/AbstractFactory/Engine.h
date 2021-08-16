@@ -12,8 +12,8 @@ public:
 	virtual unsigned int getPower()const = 0;
 	void info()const
 	{
-		cout << typeid(*this).name() << endl;
-		cout << "Engine power:\t" << power << endl;
+		cout << typeid(*this).name();
+		cout << " engine power:\t" << power << endl;
 	}
 };
 
@@ -33,6 +33,17 @@ class TruckEngine :public Engine
 public:
 	TruckEngine() :Engine(1000) {}
 	~TruckEngine() {}
+	unsigned int getPower()const
+	{
+		return this->power;
+	}
+};
+
+class SUVEngine :public Engine
+{
+public:
+	SUVEngine() :Engine(250) {}
+	~SUVEngine() {}
 	unsigned int getPower()const
 	{
 		return this->power;
