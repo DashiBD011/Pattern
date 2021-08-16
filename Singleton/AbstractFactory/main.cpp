@@ -6,17 +6,20 @@ class SportCar
 {
 	Engine* engine;
 	Tank* tank;
+	Wheel* wheel;
 public:
 	SportCar(SportCarFactory* Factory)
 	{
 		this->engine = Factory->createEngine();
 		this->tank = Factory->createTank();
+		this->wheel = Factory->createWheel();
 	}
 	~SportCar() {}
 	void info()const
 	{
 		engine->info();
 		tank->info();
+		wheel->info();
 	}
 };
 
@@ -30,7 +33,10 @@ public:
 	{
 		this->engine = Factory->createEngine();
 		this->tank = Factory->createTank();
-		this->wheel = Factory->createWheel();
+		for (int i = 0; i < 4; i++)
+		{
+			this->wheel = Factory->createWheel();
+		}
 	}
 	~SUV() {}
 	void info()const
@@ -49,6 +55,6 @@ void main()
 
 	cout << endl;
 	
-	SUV cruiser(new SUVFactory);
-	cruiser.info();
+	SUV LandCruiser(new SUVFactory);
+	LandCruiser.info();
 }

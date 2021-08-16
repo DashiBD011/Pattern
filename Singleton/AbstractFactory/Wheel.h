@@ -18,7 +18,8 @@ public:
 	virtual double get_diameter()const = 0;
 	void info()const
 	{
-		cout << width << "/" << profile_height << "R" << diameter << endl;
+		cout << typeid(*this).name();
+		cout <<", параметры:\t"<< width << "/" << profile_height << "R" << diameter << endl;
 	}
 };
 
